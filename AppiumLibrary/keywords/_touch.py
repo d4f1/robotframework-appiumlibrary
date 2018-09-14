@@ -42,7 +42,7 @@ class _TouchKeywords(KeywordGroup):
         Usage:
         | Swipe | 500 | 100 | 100 | 0 | 1000 |
 
-        _*NOTE: *_ 
+        _*NOTE: *_
         Android 'Swipe' is not working properly, use ``offset_x`` and ``offset_y`` as if these are destination points.
         """
         driver = self._current_application()
@@ -50,7 +50,7 @@ class _TouchKeywords(KeywordGroup):
 
     def swipe_by_percent(self, start_x, start_y, end_x, end_y, duration=1000):
         """
-        Swipe from one percent of the screen to another percent, for an optional duration. 
+        Swipe from one percent of the screen to another percent, for an optional duration.
         Normal swipe fails to scale for different screen resolutions, this can be avoided using percent.
 
         Args:
@@ -59,13 +59,13 @@ class _TouchKeywords(KeywordGroup):
          - end_x - x-percent distance from start_x at which to stop
          - end_y - y-percent distance from start_y at which to stop
          - duration - (optional) time to take the swipe, in ms.
-         
+
         Usage:
         | Swipe By Percent | 90 | 50 | 10 | 50 | # Swipes screen from right to left. |
 
         _*NOTE: *_
         This also considers swipe acts different between iOS and Android.
-        
+
         New in AppiumLibrary 1.4.5
         """
         width = self.get_window_width()
@@ -105,6 +105,17 @@ class _TouchKeywords(KeywordGroup):
         element = self._element_find(locator, True, True)
         driver.execute_script("mobile: scroll", {"direction": 'up', 'element': element.id})
 
+    def scroll_element_into_view(self, locator):
+        """Scroll until element is visible"""
+        driver = self._current_application()
+        target = self._element_find(locator, True, True)
+        if target:
+            return target
+        elif target is None:
+            driver.execute_script("mobile: scroll", {"direction": 'down', 'target': target.id})
+        else:
+            driver.execute_script("mobile: scroll", {"direction": 'down', 'target': target.id})
+
     def long_press(self, locator, duration=1000):
         """ Long press the element with optional duration """
         driver = self._current_application()
@@ -141,3 +152,7 @@ class _TouchKeywords(KeywordGroup):
         driver = self._current_application()
         action = TouchAction(driver)
         action.press(x=coordinate_X, y=coordinate_Y).release().perform()
+
+if __name__ == '__main__':
+    sp = _TouchKeywords
+    sp.scroll_element_into_view

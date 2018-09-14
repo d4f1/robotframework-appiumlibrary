@@ -170,10 +170,10 @@ class _ElementKeywords(KeywordGroup):
 
     def element_should_be_visible(self, locator, loglevel='INFO'):
         """Verifies that element identified with locator is visible.
-        
+
         Key attributes for arbitrary elements are `id` and `name`. See
         `introduction` for details about locating elements.
-        
+
         New in AppiumLibrary 1.4.5
         """
         if not self._element_find(locator, True, True).is_displayed():
@@ -430,6 +430,13 @@ class _ElementKeywords(KeywordGroup):
         count = len(self._element_find("xpath=" + xpath, False, False))
         return str(count)
 
+    def get_elements_count(self, xpath):
+        """
+        The keyword for get anything element in the current page.
+        """
+        count = len(self._element_find("xpath=" + xpath, False, False))
+        return str(count)
+
     def text_should_be_visible(self, text, exact_match=False, loglevel='INFO'):
         """Verifies that element identified with text is visible.
 
@@ -608,10 +615,9 @@ class _ElementKeywords(KeywordGroup):
         application = self._current_application()
         elements = self._element_finder.find(application, locator, None)
         return len(elements) > 0
-        
+
     def _is_visible(self, locator):
         element = self._element_find(locator, True, False)
         if element is not None:
             return element.is_displayed()
         return None
-
